@@ -10,7 +10,7 @@ const Header = () => {
               <span className="text-2xl font-bold text-white">SM</span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">Smart Materials</h1>
+              <h1 className="text-3xl font-bold text-gray-800">Easy Materials</h1>
               <p className="text-sm text-gray-600">AI-Powered Material Detection</p>
             </div>
           </div>

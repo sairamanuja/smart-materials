@@ -1,6 +1,6 @@
-# Smart Materials Frontend
+# Easy Materials Frontend
 
-React application with Vite for the Smart Materials platform.
+React application with Vite for the Easy Materials platform.
 
 ## Features
 

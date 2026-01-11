@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI(
-    title="Smart Materials API",
+    title="Easy Materials API",
     description="AI-powered material identification service",
     version="1.0.0"
 )
@@ -366,7 +366,7 @@ Example responses:
 @app.get("/")
 async def root():
     return {
-        "service": "Smart Materials API",
+        "service": "Easy Materials API",
         "status": "running",
         "provider": "Groq",
         "model": "meta-llama/llama-4-scout-17b-16e-instruct",
@@ -401,6 +401,8 @@ async def predict(file: UploadFile = File(...)):
         # Convert to RGB if necessary
         if image.mode != 'RGB':
             image = image.convert('RGB')
+
+
         
         # Resize if too large (Groq has limits)
         max_size = 1024
@@ -488,7 +490,7 @@ async def get_all_feedback():
 async def health_check():
     return {
         "status": "healthy",
-        "service": "Smart Materials API",
+        "service": "Easy Materials API",
         "ai_configured": client is not None
     }
 
@@ -499,7 +501,7 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     host = os.getenv("HOST", "0.0.0.0")
     
-    print("\n🚀 Starting Smart Materials API...")
+    print("\n🚀 Starting Easy Materials API...")
     print(f"📍 Service will be available at: http://{host}:{port}")
     print("📊 Endpoints:")
     print("   POST /api/scan - Scan material image")

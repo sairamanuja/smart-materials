@@ -1,4 +1,4 @@
-# Smart Materials - AI Service
+# Easy Materials - AI Service
 
 Python FastAPI service for material classification.
 

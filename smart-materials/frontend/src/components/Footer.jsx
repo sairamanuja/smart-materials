@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-3">Smart Materials</h3>
+            <h3 className="text-xl font-bold mb-3">Easy Materials</h3>
             <p className="text-gray-400 text-sm">
               Advanced AI-powered material detection and educational platform for material science enthusiasts and professionals.
             </p>
@@ -27,7 +27,7 @@ const Footer = () => {
               Bridging material science and artificial intelligence for better material identification and education.
             </p>
             <p className="text-gray-500 text-xs">
-              © 2026 Smart Materials. All rights reserved.
+              © 2026 Easy Materials. All rights reserved.
             </p>
           </div>
         </div>

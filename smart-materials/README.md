@@ -1,4 +1,4 @@
-# Smart Materials - AI-Powered Material Scanner
+# Easy Materials - AI-Powered Material Scanner
 
 A modern full-stack application for AI-powered material identification and education.
 
