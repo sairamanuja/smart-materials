@@ -13,7 +13,11 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-app = FastAPI(title="Smart Materials API")
+app = FastAPI(
+    title="Smart Materials API",
+    description="AI-powered material identification service",
+    version="1.0.0"
+)
 
 # Configure Groq API
 api_key = os.getenv("GROQ_API_KEY")
@@ -25,12 +29,15 @@ if api_key:
 else:
     print("⚠️  Warning: GROQ_API_KEY not found. Set it in .env file")
 
-# CORS middleware
+# CORS middleware - configure allowed origins from environment
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+# In production, set ALLOWED_ORIGINS to your frontend domain
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -476,16 +483,31 @@ async def get_all_feedback():
         "count": len(feedback_store)
     }
 
+# Health check endpoint for hosting platforms
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "healthy",
+        "service": "Smart Materials API",
+        "ai_configured": client is not None
+    }
+
 if __name__ == "__main__":
     import uvicorn
+    
+    # Get port from environment variable (required for hosting platforms like Render, Railway, etc.)
+    port = int(os.getenv("PORT", 8000))
+    host = os.getenv("HOST", "0.0.0.0")
+    
     print("\n🚀 Starting Smart Materials API...")
-    print("📍 Service will be available at: http://localhost:8000")
+    print(f"📍 Service will be available at: http://{host}:{port}")
     print("📊 Endpoints:")
     print("   POST /api/scan - Scan material image")
     print("   POST /api/feedback - Submit feedback")
     print("   GET  /api/feedback - Get all feedback")
+    print("   GET  /health - Health check")
     print("🧠 AI Model: Llama 4 Scout 17B Vision")
     if not api_key:
         print("⚠️  WARNING: GROQ_API_KEY not set. Please configure it in .env file")
     print()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=host, port=port)
