@@ -7,7 +7,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-2xl font-bold text-white">SM</span>
+              <span className="text-2xl font-bold text-white">EM</span>
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-800">Easy Materials</h1>

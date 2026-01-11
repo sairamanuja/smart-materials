@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
-import { materialsData, chartData } from '../data/materialsData';
+import { materialsData, chartData, exampleMaterialsData } from '../data/materialsData';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const MaterialsSection = () => {
   const [selectedMaterial, setSelectedMaterial] = useState(materialsData[0]);
+  const [selectedExample, setSelectedExample] = useState(null);
+
+  const handleExampleClick = (example) => {
+    const exampleData = exampleMaterialsData[example];
+    if (exampleData) {
+      setSelectedExample(exampleData);
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedExample(null);
+  };
 
   return (
     <section id="materials" className="py-12 bg-white">
@@ -89,20 +101,122 @@ const MaterialsSection = () => {
           </div>
 
           <div className="mt-4">
-            <h4 className="font-semibold text-gray-800 mb-2">Examples:</h4>
+            <h4 className="font-semibold text-gray-800 mb-2">Examples: <span className="text-sm font-normal text-blue-600">(Click for details)</span></h4>
             <div className="flex flex-wrap gap-2">
               {selectedMaterial.examples.map((example, index) => (
-                <span
+                <button
                   key={index}
-                  className="bg-white px-3 py-1 rounded-full text-sm text-gray-700 shadow"
+                  onClick={() => handleExampleClick(example)}
+                  className="bg-white px-3 py-1 rounded-full text-sm text-gray-700 shadow hover:bg-blue-100 hover:text-blue-700 transition cursor-pointer border border-transparent hover:border-blue-300"
                 >
                   {example}
-                </span>
+                </button>
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal for Example Material Details */}
+      {selectedExample && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-xl">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-2xl font-bold">{selectedExample.name}</h3>
+                  <p className="text-blue-100 mt-1">
+                    {selectedExample.symbol && <span className="mr-3">Symbol: {selectedExample.symbol}</span>}
+                    <span>Category: {selectedExample.category}</span>
+                  </p>
+                </div>
+                <button
+                  onClick={closeModal}
+                  className="text-white hover:text-red-200 text-2xl font-bold p-1"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Mechanical Properties */}
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <h4 className="text-lg font-bold text-blue-800 mb-3 flex items-center">
+                    <span className="mr-2">⚙️</span> Mechanical Properties
+                  </h4>
+                  <div className="space-y-2">
+                    {Object.entries(selectedExample.mechanical).map(([key, value]) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                        <span className="font-semibold text-gray-800">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Thermal Properties */}
+                <div className="bg-red-50 rounded-lg p-4">
+                  <h4 className="text-lg font-bold text-red-800 mb-3 flex items-center">
+                    <span className="mr-2">🌡️</span> Thermal Properties
+                  </h4>
+                  <div className="space-y-2">
+                    {Object.entries(selectedExample.thermal).map(([key, value]) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                        <span className="font-semibold text-gray-800">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Green/Environmental Properties */}
+                <div className="bg-green-50 rounded-lg p-4">
+                  <h4 className="text-lg font-bold text-green-800 mb-3 flex items-center">
+                    <span className="mr-2">🌿</span> Green / Environmental
+                  </h4>
+                  <div className="space-y-2">
+                    {Object.entries(selectedExample.green).map(([key, value]) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                        <span className="font-semibold text-gray-800">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Structural Properties */}
+                <div className="bg-purple-50 rounded-lg p-4">
+                  <h4 className="text-lg font-bold text-purple-800 mb-3 flex items-center">
+                    <span className="mr-2">🔬</span> Structure
+                  </h4>
+                  <div className="space-y-2">
+                    {Object.entries(selectedExample.structure).map(([key, value]) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                        <span className="font-semibold text-gray-800">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Close Button */}
+              <div className="mt-6 text-center">
+                <button
+                  onClick={closeModal}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
