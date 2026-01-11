@@ -30,7 +30,7 @@ else:
     print("⚠️  Warning: GROQ_API_KEY not found. Set it in .env file")
 
 # CORS middleware - configure allowed origins from environment
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000,https://smart-materials-iota.vercel.app").split(",")
 # In production, set ALLOWED_ORIGINS to your frontend domain
 
 app.add_middleware(
